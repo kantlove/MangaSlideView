@@ -1,0 +1,46 @@
+﻿<UserControl
+    x:Class="MangaSlideView.Views.MangaSlideView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MangaSlideView.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <UserControl.Resources>
+        <local:UriToBitmapConverter x:Key="UriToBitmapConverter" />
+        <Style x:Key="ListBoxItemNoPaddingStyle" TargetType="ListBoxItem">
+            <Setter Property="Padding" Value="0"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <ListBox x:Name="MainListBox" Background="DarkOrange"
+                 ItemContainerStyle="{StaticResource ListBoxItemNoPaddingStyle}"
+                 ScrollViewer.HorizontalScrollMode="Enabled"
+                 ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="{Binding Orientation}"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border Name="ParentGrid" Padding="0" BorderBrush="Black" BorderThickness="1"
+                            Loaded="ParentGrid_Loaded">
+                        <local:SafeImage Loaded="SafeImage_Loaded">
+                            <!--<Image Name="MainImage" CacheMode="BitmapCache" Source="http://storage.fshare.vn/Test-vechai/1435817888-Naruto-chap-09-19.jpg"/>-->
+                            <Image Name="MainImage" Source="{Binding ImageSource, Converter={StaticResource UriToBitmapConverter}}"/>
+                        </local:SafeImage>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Grid x:Name="GridTouchPad" Background="Transparent" ManipulationMode="TranslateX"/>
+        <Border Background="White" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <TextBlock x:Name="TbStatus" Text="Status" Foreground="Black" FontSize="15"/>
+        </Border>
+    </Grid>
+</UserControl>
